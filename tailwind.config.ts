@@ -31,12 +31,12 @@ const config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
+          DEFAULT: "#91C6AD",
+          foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
+          DEFAULT: "#C46A73",
+          foreground: "#ffffff",
         },
         destructive: {
           DEFAULT: "var(--destructive)",
