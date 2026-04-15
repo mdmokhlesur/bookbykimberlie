@@ -15,6 +15,9 @@ import {
   Calculator,
   PieChart,
   FileText,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
@@ -22,49 +25,63 @@ import { motion, Variants } from "framer-motion";
 /* ─── Data ─── */
 const services = [
   {
-    title: "QuickBooks",
+    title: "QuickBooks Cleanup",
     description:
-      "Setup and manage your QuickBooks with expert care and accuracy.",
-    image: "/quickbooks.png",
+      "Expert setup, cleanup, and automation that turns your spreadsheet nightmares into a streamlined, high-performance system.",
+    image: "/payment-processing.png",
     icon: Calculator,
   },
   {
-    title: "Payroll",
+    title: "Accounts Payable",
     description:
-      "Smooth payroll coordination so your team gets paid on time, every time.",
-    image: "/payroll.png",
+      "Precision management of your bills and outgoing payments to maintain vendor trust and cash flow control.",
+    image: "/account-payable.png",
     icon: FileText,
   },
   {
-    title: "Reports",
+    title: "Accounts Receivable",
     description:
-      "Clear financial reports that help you understand your business health.",
-    image: "/reports.png",
+      "Tracking invoices and ensuring timely incoming payments to keep your business moving forward.",
+    image: "/account-receivable.png",
+    icon: Heart,
+  },
+  {
+    title: "Payroll & Compliance",
+    description:
+      "On-time payroll and GAAP-compliant reporting that keeps your team happy and your books audit-ready.",
+    image: "/account-payable.png",
+    icon: Shield,
+  },
+  {
+    title: "Financial Reporting",
+    description:
+      "Expert P&L, balance sheets, and cash flow visibility that CPAs love and owners actually understand.",
+    image: "/account-receivable.png",
     icon: PieChart,
   },
 ];
 
 const testimonials = [
   {
-    text: "Kimberlie's bookkeeping brought clarity to my chaotic finances—now I actually enjoy reviewing my numbers each month.",
-    rating: 5,
-    name: "Alex M.",
-    role: "Agency Owner",
-    image: "/clients-photo.png",
-  },
-  {
-    text: "Kimberlie made my accounting stress disappear. Highly professional and easy to work with.",
+    text: "She made my accounting stress completely disappear. Highly professional and genuinely easy to work with.",
     rating: 5,
     name: "Sarah T.",
     role: "Freelance Designer",
-    image: "/clients-photo.png",
+    image: "https://ui-avatars.com/api/?name=Sarah+T&background=C96C74&color=fff",
   },
   {
-    text: "With 15 years of experience, she completely transformed how we view our cash flow.",
+    text: "Finally a bookkeeper who explains things in plain English. I feel confident about my finances for the first time.",
     rating: 5,
     name: "David R.",
-    role: "Construction Lead",
-    image: "/clients-photo.png",
+    role: "Restaurant Owner",
+    image: "https://ui-avatars.com/api/?name=David+R&background=3fa27a&color=fff",
+  },
+  {
+    text: "Kimberlie's bookkeeping brought clarity to my chaotic finances—now I actually enjoy reviewing my numbers.",
+    rating: 5,
+    name: "Alex M.",
+    role: "Contractor, Vermont",
+    image: "https://ui-avatars.com/api/?name=Alex+M&background=C96C74&color=fff",
   },
 ];
 
@@ -121,33 +138,38 @@ export default function Page() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Thank you for your message! Kimberlie will be in touch soon.");
-    setName("");
-    setEmail("");
-    setMessage("");
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 overflow-x-hidden font-sans">
-      {/* Header */}
-      <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="flex justify-center items-center py-6 px-8 bg-white/70 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/50 shadow-sm"
-      >
-        <Image
-          src="/logo.png"
-          alt="Books by Kimberlie"
-          width={280}
-          height={210}
-          className="h-20 w-auto md:h-32 object-contain hover:scale-105 transition-transform duration-500"
-        />
-      </motion.header>
-
+    <div className="min-h-screen bg-white overflow-x-hidden font-sans">
       {/* Hero */}
       <section
         id="home"
@@ -176,20 +198,30 @@ export default function Page() {
           variants={staggerContainer}
           className="relative z-10 max-w-4xl mx-auto px-2"
         >
+          <motion.div
+            variants={fadeInUp}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary border border-secondary/20 font-medium text-sm mb-8"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+            </span>
+            Remote Bookkeeping • Vermont & Nationwide
+          </motion.div>
           <motion.h1
             variants={scaleUp}
-            className="text-4xl sm:text-5xl md:text-7xl font-bold text-slate-900 tracking-tight leading-tight mb-6"
+            className="text-5xl sm:text-6xl md:text-8xl font-heading font-bold text-slate-900 tracking-tight leading-[1.05] mb-8"
           >
-            From chaos to calm, <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-              one ledger at a time.
-            </span>
+            From <span className="italic font-normal">chaos</span> to <br className="hidden sm:block" />
+            <span className="text-primary italic font-normal">calm</span>, one ledger <br className="hidden sm:block" />
+            at a time.
           </motion.h1>
           <motion.p
             variants={fadeInUp}
-            className="mt-12 text-slate-600 text-lg sm:text-xl md:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed px-4"
+            className="text-slate-600 text-lg sm:text-xl md:text-2xl max-w-2xl mx-auto mb-12 leading-relaxed px-4"
           >
-            Remote bookkeeping for builders, creatives & businesses
+            Clear financial control for builders, creatives & businesses. 
+            <span className="block font-medium text-slate-900 mt-2">No spreadsheet nightmares, just crystal clear numbers.</span>
           </motion.p>
           <motion.div
             variants={fadeInUp}
@@ -224,8 +256,36 @@ export default function Page() {
         </motion.div>
       </section>
 
+      {/* Stats Summary */}
+      <section className="bg-white pb-20">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+            {[
+              { label: "Years Exp.", value: "30+" },
+              { label: "Happy Clients", value: "200+" },
+              { label: "Remote", value: "100%" },
+              { label: "Hidden Fees", value: "$0" },
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-slate-50 border border-slate-100 p-6 sm:p-10 rounded-[2.5rem] text-center hover:shadow-xl hover:shadow-primary/5 transition-all group"
+              >
+                <div className="text-3xl sm:text-5xl font-heading font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors">
+                  {stat.value}
+                </div>
+                <p className="text-slate-500 font-medium text-sm sm:text-base uppercase tracking-wider">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* About */}
-      <section className="relative py-28 bg-gradient-to-b from-white to-primary/5 border-y border-slate-200/50">
+      <section id="about" className="relative py-28 bg-gradient-to-b from-white to-primary/5 border-y border-slate-200/50">
         <div className="container max-w-6xl mx-auto px-4 relative z-10">
           <motion.div
             initial="hidden"
@@ -234,45 +294,52 @@ export default function Page() {
             variants={staggerContainer}
             className="grid lg:grid-cols-2 gap-16 items-center"
           >
-            <motion.div variants={fadeInLeft} className="space-y-6">
-              <div>
-                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-2">
-                  Meet Kimberlie, Your Bookkeeper
+            <motion.div variants={fadeInLeft} className="space-y-8">
+              <div className="space-y-4">
+                <h2 className="text-primary font-bold tracking-widest uppercase text-sm">Meet Your Bookkeeper</h2>
+                <h3 className="text-4xl md:text-6xl font-heading font-bold text-slate-900 leading-[1.1]">
+                  Kimberlie Gerstner <br />
+                  <span className="text-primary/60 text-3xl md:text-4xl">30+ Years Hands-On Experience</span>
                 </h3>
               </div>
 
-              <div className="pt-2">
-                <div className="flex items-start gap-4 sm:gap-5">
-                  <motion.div
-                    variants={floatingAnimation}
-                    animate="animate"
-                    className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mt-1"
-                  >
-                    <Shield className="w-5 h-5 sm:w-6 sm:h-6" />
-                  </motion.div>
-                  <div>
-                    <h4 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
-                      Trusted Expertise
-                    </h4>
-                    <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-                      I&apos;m Kimberlie Gerstner, and I help business owners
-                      gain clear control over their finances so they can focus
-                      on what they do best—growing their business. With 15 years
-                      of hands-on experience in accounting and finance,
-                      I&apos;ve supported family-owned companies and large
-                      corporations alike across hospitality, banking,
-                      construction, and service industries. My expertise spans
-                      bookkeeping, accounts payable, billing, financial
-                      reporting, budgeting, forecasting, cash flow management,
-                      reconciliations, payroll, and process improvement. I take
-                      a detail-oriented, collaborative approach with every
-                      client, empowering small and medium-sized businesses to
-                      stay organized, compliant, and confident in their
-                      financial foundation.
-                    </p>
-                  </div>
-                </div>
+              <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
+                <p>
+                  With over three decades leading accounting and finance across construction, hospitality, banking, tech, and service industries, I bring battle-tested expertise to every client&apos;s books.
+                </p>
+                <p>
+                  From Controller and CFO roles to Regional Finance Manager for multi-million portfolios, I&apos;ve managed everything from multi-entity GAAP reporting to daily wire transfers and international reconciliations.
+                </p>
+                <p className="border-l-4 border-secondary pl-6 italic bg-secondary/5 py-4 rounded-r-2xl">
+                  &quot;My mission is simple: deliver clear financial control so you can focus on projects, customers, and growth instead of spreadsheets.&quot;
+                </p>
               </div>
+
+              <div className="pt-4">
+                <a 
+                  href="#contact" 
+                  className="inline-flex items-center justify-center rounded-full bg-primary hover:bg-primary-dark text-white shadow-xl shadow-primary/20 h-14 px-10 text-lg font-medium transition-all transform hover:-translate-y-1"
+                >
+                  Work With Kimberlie
+                </a>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              variants={fadeInRight}
+              className="relative lg:pl-16 mt-16 lg:mt-0 lg:order-first"
+            >
+              <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl">
+                <Image 
+                  src="/about-me-final.png"
+                  alt="Kimberlie Gerstner"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl -z-10" />
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl -z-10" />
             </motion.div>
             <motion.div
               variants={fadeInRight}
@@ -325,23 +392,23 @@ export default function Page() {
                 </div>
                 
                 {/* Bulleted List Style */}
-                <div className="space-y-6">
+                <div className="space-y-8 mt-12">
                   {[
                     {
-                      title: "Tailored Bookkeeping Solutions",
-                      desc: "Customized services for construction, hospitality, and service businesses — from QuickBooks setup to daily transaction tracking.",
+                      title: "Extensive Controller/CFO Experience",
+                      desc: "Built accounting systems from scratch for hotels, banks, tech startups, and construction firms.",
                     },
                     {
-                      title: "Stress-Free Compliance",
-                      desc: "GAAP-compliant reporting, audit-ready records, and tax prep support so you avoid surprises and penalties.",
+                      title: "QuickBooks Specialist",
+                      desc: "Setup, cleanup, automation, and monthly maintenance that actually saves you time.",
                     },
                     {
-                      title: "Time-Saving Automation",
-                      desc: "Streamlined AP/AR workflows, payroll processing, and custom SOPs that cut your admin time in half.",
+                      title: "Proven Across Industries",
+                      desc: "Expertise in construction job costing, hospitality revenue management, and tech payroll scaling.",
                     },
                     {
-                      title: "Growth-Focused Insights",
-                      desc: "Clear cash flow forecasts, job costing, and budgeting to help you bid smarter and scale confidently.",
+                      title: "GAAP-Compliant Reporting",
+                      desc: "Balance sheets and cash flow insights that CPAs love and business owners actually trust.",
                     },
                   ].map((item, idx) => (
                     <motion.div
@@ -349,16 +416,13 @@ export default function Page() {
                       initial={{ opacity: 0, x: 20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.1 }}
-                      className="flex gap-4 group"
+                      className="flex gap-6 group pl-4 border-l-2 border-primary/20 hover:border-primary transition-colors"
                     >
-                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-secondary flex items-center justify-center mt-1 shadow-md shadow-secondary/20 group-hover:scale-110 transition-transform">
-                        <ChevronRight className="w-4 h-4 text-white" />
-                      </div>
                       <div>
-                        <h4 className="text-lg font-bold text-slate-900 group-hover:text-primary transition-colors">
+                        <h4 className="text-xl font-heading font-bold text-slate-900 group-hover:text-primary transition-colors">
                           {item.title}
                         </h4>
-                        <p className="text-slate-600 text-sm mt-1 leading-relaxed">
+                        <p className="text-slate-600 mt-2 leading-relaxed">
                           {item.desc}
                         </p>
                       </div>
@@ -382,7 +446,7 @@ export default function Page() {
       </section>
 
       {/* Services */}
-      <section className="py-28 bg-gradient-to-tr from-primary/10 via-slate-50 to-secondary/10 relative overflow-hidden">
+      <section id="services" className="py-28 bg-gradient-to-tr from-primary/10 via-slate-50 to-secondary/10 relative overflow-hidden">
         <div className="absolute -left-40 top-40 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -right-40 bottom-40 w-96 h-96 bg-secondary/20 rounded-full blur-3xl pointer-events-none" />
         <div className="container max-w-6xl mx-auto px-4 relative z-10">
@@ -401,13 +465,13 @@ export default function Page() {
             </motion.h2>
             <motion.h3
               variants={fadeInUp}
-              className="text-4xl md:text-5xl font-bold text-slate-900 mb-6"
+              className="text-4xl md:text-6xl font-heading font-bold text-slate-900 mb-6"
             >
-              Services We Offer
+              Services built for <br />
+              <span className="text-secondary italic font-normal">builders & creatives</span>
             </motion.h3>
-            <motion.p variants={fadeInUp} className="text-slate-600 text-lg">
-              Helping builders and creatives find calm in their finances through
-              dedicated, expert bookkeeping.
+            <motion.p variants={fadeInUp} className="text-slate-600 text-lg max-w-xl mx-auto">
+              Every service is customized to your business — not a one-size-fits-all template. We maintain absolute financial visibility using industry-leading tools.
             </motion.p>
           </motion.div>
 
@@ -416,7 +480,7 @@ export default function Page() {
             whileInView="visible"
             viewport={{ once: true, margin: "50px" }}
             variants={staggerContainer}
-            className="grid md:grid-cols-3 gap-8"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {services.map((s) => (
               <motion.div
@@ -574,10 +638,12 @@ export default function Page() {
               >
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1">
+                    <label htmlFor="name" className="text-sm font-bold text-slate-700 ml-1">
                       Name
                     </label>
                     <Input
+                      id="name"
+                      name="name"
                       placeholder="John Doe"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -586,10 +652,12 @@ export default function Page() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1">
+                    <label htmlFor="email" className="text-sm font-bold text-slate-700 ml-1">
                       Email
                     </label>
                     <Input
+                      id="email"
+                      name="email"
                       type="email"
                       placeholder="john@example.com"
                       value={email}
@@ -600,10 +668,12 @@ export default function Page() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700 ml-1">
+                  <label htmlFor="message" className="text-sm font-bold text-slate-700 ml-1">
                     Message
                   </label>
                   <Textarea
+                    id="message"
+                    name="message"
                     placeholder="How can we help you?"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
@@ -614,111 +684,44 @@ export default function Page() {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full h-14 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 text-base font-bold transition-transform hover:-translate-y-1"
+                  disabled={isSubmitting}
+                  className="w-full h-14 rounded-xl bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/20 text-base font-bold transition-all transform hover:-translate-y-1 disabled:opacity-70 disabled:cursor-not-allowed group"
                 >
-                  Send Message
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Sending Inquiry...
+                    </span>
+                  ) : (
+                    "Send Message"
+                  )}
                 </Button>
+
+                {submitStatus === "success" && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center justify-center gap-2 text-secondary font-bold text-center bg-secondary/10 p-4 rounded-xl"
+                  >
+                    <CheckCircle2 className="w-5 h-5" />
+                    Thank you! Kimberlie will be in touch soon.
+                  </motion.div>
+                )}
+                {submitStatus === "error" && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center justify-center gap-2 text-destructive font-bold text-center bg-destructive/10 p-4 rounded-xl"
+                  >
+                    <AlertCircle className="w-5 h-5" />
+                    Something went wrong. Please check your connection.
+                  </motion.div>
+                )}
               </form>
             </motion.div>
           </motion.div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gradient-to-br from-primary to-secondary text-white py-20 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="container max-w-6xl mx-auto relative z-10">
-          <div className="grid md:grid-cols-12 gap-12 lg:gap-8">
-            <div className="md:col-span-4">
-              <Image
-                src="/logo.png"
-                alt="Books by Kimberlie"
-                width={200}
-                height={150}
-                className="h-16 w-auto object-contain mb-6 brightness-0 invert opacity-100"
-              />
-              <p className="text-white/80 text-sm leading-relaxed mb-8 max-w-sm">
-                Gaining clear control over your finances so you can focus on
-                growing your business.
-              </p>
-              <div className="flex gap-4">
-                {[Facebook, Instagram, Twitter].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-black/20 flex items-center justify-center hover:bg-white hover:text-primary transition-colors"
-                  >
-                    <Icon className="w-4 h-4" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className="md:col-span-2 md:col-start-7">
-              <h4 className="text-white font-bold mb-6">Quick Links</h4>
-              <ul className="space-y-4 text-sm text-white/80">
-                <li>
-                  <a
-                    href="#home"
-                    className="hover:text-white transition-colors"
-                  >
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Services
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#contact"
-                    className="hover:text-white transition-colors"
-                  >
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="md:col-span-4">
-              <h4 className="text-white font-bold mb-6">Stay in the loop</h4>
-              <p className="text-sm text-white/80 mb-4">
-                Get helpful bookkeeping tips and updates
-              </p>
-              <div className="flex bg-black/20 p-1 rounded-xl">
-                <Input
-                  placeholder="Email address"
-                  className="bg-transparent border-none text-white placeholder:text-white/50 h-12 focus-visible:ring-0"
-                />
-                <Button className="rounded-lg h-12 bg-white text-primary hover:bg-white/90 px-6 font-bold transition-colors">
-                  Send Message
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-20 pt-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
-            <p>
-              © {new Date().getFullYear()} Books by Kimberlie. All rights
-              reserved.
-            </p>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

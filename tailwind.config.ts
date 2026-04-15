@@ -20,7 +20,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        heading: ["var(--font-heading)", "sans-serif"],
+        heading: ["var(--font-heading)", "serif"],
         body: ["var(--font-body)", "sans-serif"],
         sans: ["var(--font-sans)", "sans-serif"],
       },
@@ -31,11 +31,15 @@ const config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "rgb(201, 108, 116)",
+          DEFAULT: "rgb(201, 108, 116)", // Rose Gold/Dusty Pink
+          dark: "rgb(180, 90, 100)",
+          light: "rgb(220, 140, 150)",
           foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#3fa27a",
+          DEFAULT: "#3fa27a", // Sage Green
+          dark: "#2e8b65",
+          light: "#5ab993",
           foreground: "#ffffff",
         },
         destructive: {
