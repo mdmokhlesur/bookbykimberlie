@@ -24,9 +24,9 @@ export async function POST(req: Request) {
 
     // 3. Email Content
     const mailOptions = {
-      from: `"${name}" <${process.env.NEXT_PUBLIC_EMAIL}>`,
+      from: `"${name}" <${email}>`,
       replyTo: email,
-      to: process.env.RECEIVER_EMAIL || "kimberlie@booksbykimberlie.com",
+      to: process.env.RECEIVE_EMAIL || "kimberlie@booksbykimberlie.com",
       subject: `New Inquiry: ${name} — Books by Kimberlie`,
       text: `New message from ${name} (${email}):\n\n${message}`,
       html: `
