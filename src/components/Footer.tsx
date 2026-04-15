@@ -1,110 +1,120 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
+
+const footerLinks = [
+  { name: "About", href: "#about" },
+  { name: "How It Works", href: "#services" },
+  { name: "Reviews", href: "#testimonials" },
+  { name: "Contact", href: "#contact" },
+];
+
+const contactItems = [
+  {
+    name: "kimberlie@booksbykimberlie.com",
+    href: "mailto:kimberlie@booksbykimberlie.com",
+  },
+  { name: "830-515-9818", href: "tel:8305159818" },
+  { name: "830-730-4160", href: "tel:8307304160" },
+  { name: "WhatsApp", href: "https://wa.me/8305159818" },
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-white pt-20 pb-10 border-t border-slate-100">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          {/* Brand Info */}
-          <div className="space-y-6">
-            <Link href="/" className="inline-block relative h-16 w-56">
+    <footer className="bg-slate-50 pt-24 pb-12 overflow-hidden border-t border-slate-200">
+      <div className="container max-w-7xl mx-auto px-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
+          {/* Brand Column */}
+          <div className="lg:col-span-2 space-y-6">
+            <Link href="/" className="inline-block">
               <Image
                 src="/logo.png"
                 alt="Books by Kimberlie"
-                fill
-                className="object-contain"
+                width={220}
+                height={120}
+                className="w-auto h-auto opacity-90 hover:opacity-100 transition-opacity"
               />
             </Link>
-            <p className="text-slate-600 leading-relaxed font-medium">
-              Kimberlie Gerstner <br />
-              <span className="text-primary text-sm font-bold uppercase tracking-wider">Certified Bookkeeper & CFO Expert</span>
-            </p>
-            <p className="text-slate-500 text-sm leading-relaxed">
-              Delivering battle-tested financial control for builders and creatives nationwide.
+            <p className="text-slate-500 text-xl leading-relaxed max-w-sm font-light">
+              Remote bookkeeping for builders, creatives & businesses. From
+              chaos to calm, one ledger at a time.
             </p>
             <div className="flex gap-4">
-              {[Facebook, Instagram, Twitter].map((Icon, i) => (
+              {[
+                { icon: Facebook, href: "#" },
+                { icon: Instagram, href: "#" },
+                { icon: Linkedin, href: "#" },
+              ].map((social, i) => (
                 <a
                   key={i}
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1 border border-slate-100 shadow-sm"
+                  href={social.href}
+                  className="w-12 h-12 rounded-full border border-slate-200 bg-white flex items-center justify-center text-primary hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm"
                 >
-                  <Icon size={18} />
+                  <social.icon size={20} />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Company Column */}
           <div>
-            <h4 className="font-heading font-bold text-slate-900 text-xl mb-6">Quick Links</h4>
-            <ul className="space-y-4">
-              {["Home", "About", "Services", "Portfolio", "Contact"].map((item) => (
-                <li key={item}>
+            <h4 className="font-heading font-bold text-[#8E4D64] text-sm tracking-[0.3em] uppercase mb-10">
+              COMPANY
+            </h4>
+            <ul className="space-y-6">
+              {footerLinks.map((link) => (
+                <li key={link.name}>
                   <Link
-                    href={`#${item.toLowerCase()}`}
-                    className="text-slate-600 hover:text-primary transition-colors flex items-center gap-2 group"
+                    href={link.href}
+                    className="text-slate-600 hover:text-primary transition-colors text-lg font-medium"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary scale-0 group-hover:scale-100 transition-transform" />
-                    {item}
+                    {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Contact Column */}
           <div>
-            <h4 className="font-heading font-bold text-slate-900 text-xl mb-6">Get In Touch</h4>
-            <ul className="space-y-5">
-              <li className="flex items-start gap-4 text-slate-600">
-                <MapPin className="text-secondary flex-shrink-0" size={20} />
-                <span>Remote Bookkeeping <br /> Serving Clients Nationwide</span>
-              </li>
-              <li className="flex items-center gap-4 text-slate-600">
-                <Phone className="text-secondary flex-shrink-0" size={20} />
-                <a href="tel:8305159818" className="hover:text-primary transition-colors">830-515-9818</a>
-              </li>
-              <li className="flex items-center gap-4 text-slate-600">
-                <Mail className="text-secondary flex-shrink-0" size={20} />
-                <a href="mailto:kimberlie@booksbykimberlie.com" className="hover:text-primary transition-colors">kimberlie@booksbykimberlie.com</a>
-              </li>
+            <h4 className="font-heading font-bold text-[#8E4D64] text-sm tracking-[0.3em] uppercase mb-10">
+              CONTACT
+            </h4>
+            <ul className="space-y-6">
+              {contactItems.map((item) => (
+                <li key={item.name}>
+                  <a
+                    href={item.href}
+                    className="text-slate-600 hover:text-primary transition-colors text-lg font-medium"
+                  >
+                    {item.name}
+                  </a>
+                </li>
+              ))}
             </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h4 className="font-heading font-bold text-slate-900 text-xl mb-6">Stay in the Loop</h4>
-            <p className="text-slate-600 mb-6 text-sm">
-              Helpful bookkeeping tips, money wins, and cheerful updates.
-            </p>
-            <div className="space-y-3">
-              <Input
-                placeholder="your@email.com"
-                className="bg-slate-50 border-slate-200 rounded-xl px-4 py-6 focus:ring-primary h-12 text-slate-900"
-              />
-              <Button className="w-full bg-primary hover:bg-primary-dark rounded-xl py-6 h-12 font-bold shadow-lg shadow-primary/10 transition-all font-body">
-                Subscribe
-              </Button>
-            </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} Books by Kimberlie. All rights reserved.
+        {/* Bottom Row */}
+        <div className="pt-12 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-slate-400 text-sm font-medium">
+            © 2026 Books by Kimberlie. All rights reserved.
           </p>
-          <div className="flex gap-8">
-            <Link href="#" className="text-slate-400 hover:text-primary text-sm transition-colors">Privacy Policy</Link>
-            <Link href="#" className="text-slate-400 hover:text-primary text-sm transition-colors">Terms of Service</Link>
+          <div className="flex gap-10">
+            <Link
+              href="#"
+              className="text-slate-400 hover:text-primary transition-colors text-sm font-medium"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="#"
+              className="text-slate-400 hover:text-primary transition-colors text-sm font-medium"
+            >
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>

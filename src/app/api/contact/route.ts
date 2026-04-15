@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: "Please fill in all fields." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -17,15 +17,15 @@ export async function POST(req: Request) {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, // Google App Password
+        user: process.env.NEXT_PUBLIC_EMAIL,
+        pass: process.env.NEXT_PUBLIC_PASSWORD, // Google App Password
       },
     });
 
     // 3. Email Content
     const mailOptions = {
       from: `"${name}" <${email}>`,
-      to: process.env.RECEIVER_EMAIL || "kimberlie@booksbykimberlie.com",
+      to: process.env.NEXT_PUBLIC_RECEIVER_EMAIL || "kimberlie@booksbykimberlie.com",
       subject: `New Message from ${name} via Website`,
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
       html: `
@@ -43,13 +43,13 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       { message: "Email sent successfully!" },
-      { status: 200 }
+      { status: 200 },
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error("Email Error:", error);
     return NextResponse.json(
       { error: "Failed to send email. Please try again later." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

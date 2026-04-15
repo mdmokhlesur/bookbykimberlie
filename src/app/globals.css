@@ -120,4 +120,15 @@
       animation: logo-spin infinite 20s linear;
     }
   }
+
+  .shadow-2xl-soft {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.03);
+  }
+
+  .glassmorphism-light {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
 }

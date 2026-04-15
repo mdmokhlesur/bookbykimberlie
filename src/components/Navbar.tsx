@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Button } from "./ui/button";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -36,58 +35,58 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="text-slate-600 hover:text-primary font-medium transition-colors"
+              className="text-slate-600 hover:text-primary font-medium transition-all hover:scale-105 active:scale-95"
             >
               {link.name}
             </Link>
           ))}
-          <Link 
-            href="#contact" 
-            className="rounded-full bg-primary hover:bg-primary-dark text-white px-6 py-2.5 font-medium transition-colors shadow-lg shadow-primary/20"
+          <a
+            href="tel:8305159818"
+            className="flex items-center gap-2 rounded-full bg-primary hover:bg-primary-dark text-white px-8 py-3.5 font-bold transition-all shadow-xl hover:shadow-primary/20"
           >
             Free Consultation
-          </Link>
+          </a>
         </nav>
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-slate-600 p-2"
+          className="md:hidden text-slate-900 p-2 hover:bg-slate-50 rounded-lg transition-colors"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
+          {isOpen ? <X size={32} /> : <Menu size={32} />}
         </button>
       </div>
 
       {/* Mobile Nav */}
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="md:hidden bg-white border-b border-slate-100 overflow-hidden"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="md:hidden bg-white/95 backdrop-blur-xl border-b border-slate-100 shadow-xl absolute top-full left-0 w-full overflow-hidden rounded-b-2xl"
         >
-          <div className="flex flex-col p-4 gap-4">
+          <div className="flex flex-col p-8 gap-6 text-center">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-slate-600 hover:text-primary font-medium p-2"
+                className="text-xl text-slate-600 hover:text-primary font-heading transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
-            <Link
-              href="#contact"
+            <a
+              href="tel:8305159818"
               onClick={() => setIsOpen(false)}
-              className="rounded-full bg-primary hover:bg-primary-dark text-white px-6 py-3 font-medium text-center transition-colors shadow-lg shadow-primary/20"
+              className="rounded-full bg-primary text-white px-6 py-4 text-lg font-bold transition-colors shadow-lg shadow-primary/20"
             >
               Free Consultation
-            </Link>
+            </a>
           </div>
         </motion.div>
       )}
