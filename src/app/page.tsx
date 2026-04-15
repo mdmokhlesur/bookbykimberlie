@@ -3,28 +3,24 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Toast } from "@/components/ui/toast";
+import { cn } from "@/lib/utils";
 import { motion, Variants } from "framer-motion";
 import {
+  ArrowRight,
   Calculator,
-  CheckCircle2,
   FileText,
   Heart,
   Loader2,
+  Mail,
+  MessageCircle,
+  Phone,
   PieChart,
   Shield,
   Star,
-  Users,
-  Zap,
-  Check,
-  Phone,
-  ArrowRight,
-  Mail,
-  MessageCircle,
-  AlertCircle,
 } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
-import { cn } from "@/lib/utils";
 
 /* ─── Data ─── */
 const detailedServices = [
@@ -147,7 +143,7 @@ export default function Page() {
         setSubmitStatus("error");
       }
     } catch (error) {
-      setSubmitStatus("error");
+      setSubmitStatus(error ? "error" : "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -158,7 +154,7 @@ export default function Page() {
       {/* Hero Section */}
       <section
         id="home"
-        className="relative pt-40 pb-20 overflow-hidden bg-white"
+        className="relative pt-24 pb-16 md:pt-40 md:pb-20 overflow-hidden bg-white"
       >
         <div className="container max-w-7xl mx-auto px-6 relative z-10">
           <motion.div
@@ -178,7 +174,7 @@ export default function Page() {
             {/* Title */}
             <motion.h1
               variants={fadeInUp}
-              className="text-6xl md:text-8xl font-heading font-medium tracking-tight text-slate-900 leading-[1.1] mb-8"
+              className="text-5xl md:text-7xl font-heading font-medium tracking-tight text-slate-900 leading-[1.1] mb-8"
             >
               From <span className="italic font-normal">chaos</span> <br />
               to calm, <span className="italic font-normal">one</span> <br />
@@ -188,7 +184,7 @@ export default function Page() {
             {/* Subtitle */}
             <motion.p
               variants={fadeInUp}
-              className="text-xl md:text-2xl text-[#8E4D64] mb-12 leading-relaxed font-medium max-w-3xl"
+              className="text-lg md:text-xl text-[#8E4D64] mb-12 leading-relaxed font-medium max-w-3xl"
             >
               Remote bookkeeping for builders, creatives & businesses — so you
               can focus on growing what you love.{" "}
@@ -203,16 +199,17 @@ export default function Page() {
               className="flex items-center gap-4 mb-12"
             >
               <div className="flex -space-x-3">
-                {[1, 2, 3].map((i) => (
+                {testimonials.map((t) => (
                   <div
-                    key={i}
+                    key={t.text}
                     className="w-12 h-12 rounded-full border-2 border-white overflow-hidden bg-slate-100"
                   >
                     <Image
-                      src={`https://i.pravatar.cc/150?u=${i}`}
-                      alt="Client"
+                      src={t.image}
+                      alt={t.name}
                       width={48}
                       height={48}
+                      className="rounded-full bg-slate-200 shadow-sm"
                     />
                   </div>
                 ))}
@@ -227,7 +224,7 @@ export default function Page() {
                   ))}
                 </div>
                 <p className="text-slate-900 font-bold text-lg">
-                  <span className="text-slate-900">200+ clients</span> trust
+                  <span className="text-slate-900">200+ Clients</span> trust
                   Kimberlie
                 </p>
               </div>
@@ -239,7 +236,7 @@ export default function Page() {
                 href="tel:8305159818"
                 className={cn(
                   buttonVariants({ variant: "default" }),
-                  "rounded-full bg-white text-slate-600 border border-slate-100 shadow-xl hover:shadow-2xl transition-all h-20 px-20 text-xl font-medium flex items-center gap-2 group",
+                  "rounded-full bg-white text-slate-600 border border-slate-100 shadow-xl hover:shadow-2xl transition-all h-16 px-16 text-xl font-medium flex items-center gap-2 group",
                 )}
               >
                 Get a Free Consultation
@@ -261,7 +258,7 @@ export default function Page() {
                   key={i}
                   className="bg-white p-12 rounded-2xl border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition-all"
                 >
-                  <div className="text-6xl font-heading font-bold mb-2 text-slate-800">
+                  <div className="text-5xl font-heading font-bold mb-2 text-slate-800">
                     {stat.value}
                   </div>
                   <div className="text-slate-400 text-base font-bold uppercase tracking-widest">
@@ -442,15 +439,15 @@ export default function Page() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 bg-white">
+      <section id="contact" className="py-20 md:py-32 bg-white">
         <div className="container max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-24">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
             {/* Left Column */}
             <div>
-              <h2 className="text-5xl md:text-6xl font-heading font-medium mb-6 text-slate-900">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-medium mb-6 text-slate-900 leading-tight">
                 Let&apos;s clean up your books.
               </h2>
-              <p className="text-slate-500 text-lg mb-12">
+              <p className="text-slate-500 text-lg mb-10 md:mb-12">
                 Reach out for a free consultation or directly to Kimberlie.
               </p>
               {/* Contact List */}
@@ -484,16 +481,16 @@ export default function Page() {
                   <a
                     key={i}
                     href={item.href}
-                    className="flex items-center gap-8 p-6 rounded-2xl border border-slate-100 hover:border-primary/20 hover:shadow-xl transition-all bg-white group"
+                    className="flex items-center gap-4 p-4 rounded-2xl border border-slate-100 hover:border-primary/20 hover:shadow-xl transition-all bg-white group"
                   >
-                    <div className="w-16 h-16 rounded-full border border-[#D4C3C7] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
-                      <item.icon className="w-8 h-8" />
+                    <div className="size-12 rounded-full border border-[#D4C3C7] flex-shrink-0 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                      <item.icon className="size-4" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] mb-2">
+                      <p className="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-[0.3em] mb-1 md:mb-2">
                         {item.label}
                       </p>
-                      <p className="text-xl font-bold text-slate-900">
+                      <p className="text-base lg:text-lg font-semibold text-slate-900 break-all md:break-normal">
                         {item.value}
                       </p>
                     </div>
@@ -503,8 +500,8 @@ export default function Page() {
             </div>
 
             {/* Right Column (Form) */}
-            <div className="flex flex-col justify-center">
-              <h3 className="text-3xl font-heading font-medium mb-8 text-slate-900">
+            <div className="flex flex-col justify-center mt-12 lg:mt-0">
+              <h3 className="text-2xl md:text-3xl font-heading font-medium mb-8 text-slate-900">
                 Direct Message
               </h3>
 
@@ -517,7 +514,7 @@ export default function Page() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="border-0 border-b-2 border-slate-200 rounded-none h-14 px-0 text-xl focus:ring-0 focus:border-primary transition-all bg-transparent"
+                    className="border-0 border-b-2 border-slate-200 rounded-none h-12 md:h-14 px-0 text-lg md:text-xl focus:ring-0 focus:border-primary transition-all bg-transparent"
                     placeholder="Your Name"
                   />
                 </div>
@@ -548,40 +545,35 @@ export default function Page() {
                 </div>
 
                 <Button
+                  type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-20 rounded-full bg-primary hover:bg-primary-dark text-white text-xl font-bold shadow-xl shadow-primary/20 transition-all disabled:opacity-50"
+                  className="w-full h-12 md:h-16 rounded-full bg-primary hover:bg-primary-dark text-white text-lg font-bold shadow-xl shadow-primary/20 transition-all disabled:opacity-50"
                 >
                   {isSubmitting ? (
-                    <span className="flex items-center gap-3">
-                      <Loader2 className="w-6 h-6 animate-spin" /> Sending...
+                    <span className="flex items-center gap-2 md:gap-3">
+                      <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" />{" "}
+                      Sending...
                     </span>
                   ) : (
-                    <span className="flex items-center gap-3">
-                      Send Message <ArrowRight className="w-6 h-6" />
+                    <span className="flex items-center gap-2 md:gap-3">
+                      Send Message{" "}
+                      <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
                     </span>
                   )}
                 </Button>
 
-                {submitStatus === "success" && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex items-center gap-3 text-secondary font-bold justify-center pt-4 text-base text-center"
-                  >
-                    <CheckCircle2 className="w-6 h-6" /> Message sent
-                    successfully! We will contact you soon.
-                  </motion.div>
-                )}
-                {submitStatus === "error" && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex items-center gap-3 text-destructive font-bold justify-center pt-4 text-base text-center"
-                  >
-                    <AlertCircle className="w-5 h-5" /> Error sending message.
-                    Please try calling instead.
-                  </motion.div>
-                )}
+                <Toast
+                  isVisible={submitStatus === "success"}
+                  type="success"
+                  message="Message sent successfully! We will contact you soon."
+                  onClose={() => setSubmitStatus("idle")}
+                />
+                <Toast
+                  isVisible={submitStatus === "error"}
+                  type="error"
+                  message="Error sending message. Please try calling instead."
+                  onClose={() => setSubmitStatus("idle")}
+                />
               </form>
             </div>
           </div>

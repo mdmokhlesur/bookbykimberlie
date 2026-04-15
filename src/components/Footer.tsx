@@ -50,7 +50,7 @@ export default function Footer() {
                 <a
                   key={i}
                   href={social.href}
-                  className="w-12 h-12 rounded-full border border-slate-200 bg-white flex items-center justify-center text-primary hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm"
+                  className="w-12 h-12 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-primary hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm"
                 >
                   <social.icon size={20} />
                 </a>
@@ -60,7 +60,7 @@ export default function Footer() {
 
           {/* Company Column */}
           <div>
-            <h4 className="font-heading font-bold text-[#8E4D64] text-sm tracking-[0.3em] uppercase mb-10">
+            <h4 className="font-heading font-bold text-[#8E4D64] text-lg tracking-[0.3em] uppercase mb-10">
               COMPANY
             </h4>
             <ul className="space-y-6">
@@ -68,7 +68,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-slate-600 hover:text-primary transition-colors text-lg font-medium"
+                    className="text-slate-600 hover:text-primary transition-colors text-base"
                   >
                     {link.name}
                   </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
 
           {/* Contact Column */}
           <div>
-            <h4 className="font-heading font-bold text-[#8E4D64] text-sm tracking-[0.3em] uppercase mb-10">
+            <h4 className="font-heading font-bold text-[#8E4D64] text-lg tracking-[0.3em] uppercase mb-10">
               CONTACT
             </h4>
             <ul className="space-y-6">
@@ -87,7 +87,7 @@ export default function Footer() {
                 <li key={item.name}>
                   <a
                     href={item.href}
-                    className="text-slate-600 hover:text-primary transition-colors text-lg font-medium"
+                    className="text-slate-600 hover:text-primary transition-colors text-base"
                   >
                     {item.name}
                   </a>
