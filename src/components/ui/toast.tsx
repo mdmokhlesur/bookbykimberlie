@@ -27,11 +27,20 @@ export function Toast({ message, type, isVisible, onClose }: ToastProps) {
         <motion.div
           initial={{ opacity: 0, y: -50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9, y: -20, transition: { duration: 0.2 } }}
-          className="fixed top-10 right-10 z-[100] w-full max-w-sm px-6"
+          exit={{
+            opacity: 0,
+            scale: 0.9,
+            y: -20,
+            transition: { duration: 0.2 },
+          }}
+          className="fixed top-6 left-6 right-6 md:top-10 md:right-10 md:left-auto z-[100] md:w-[384px]"
         >
           <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 p-4 flex items-center gap-4">
-            <div className={type === "success" ? "text-secondary" : "text-destructive"}>
+            <div
+              className={
+                type === "success" ? "text-secondary" : "text-destructive"
+              }
+            >
               {type === "success" ? (
                 <CheckCircle2 className="w-6 h-6" />
               ) : (
@@ -44,7 +53,7 @@ export function Toast({ message, type, isVisible, onClose }: ToastProps) {
               </p>
               <p className="text-xs text-slate-500 mt-0.5">{message}</p>
             </div>
-            <button 
+            <button
               onClick={onClose}
               className="p-1 hover:bg-slate-50 rounded-lg transition-colors text-slate-300 hover:text-slate-600"
             >

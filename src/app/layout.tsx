@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans", inter.variable, playfair.variable)}>
-      <body className="antialiased font-body">
+      <body className="antialiased font-body overflow-x-hidden">
         <Navbar />
         {children}
         <Footer />
