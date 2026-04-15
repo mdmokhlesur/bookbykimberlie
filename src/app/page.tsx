@@ -209,7 +209,9 @@ export default function Page() {
                       alt={t.name}
                       width={48}
                       height={48}
+                      priority
                       className="rounded-full bg-slate-200 shadow-sm"
+                      sizes="48px"
                     />
                   </div>
                 ))}
@@ -288,6 +290,7 @@ export default function Page() {
                   alt="Kimberlie Gerstner"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
             </motion.div>
@@ -376,6 +379,7 @@ export default function Page() {
                     alt={service.title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
                 <div className="p-10 flex flex-col flex-grow text-left">

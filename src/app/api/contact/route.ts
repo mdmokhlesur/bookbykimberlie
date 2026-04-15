@@ -17,8 +17,8 @@ export async function POST(req: Request) {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.NEXT_PUBLIC_EMAIL,
-        pass: process.env.NEXT_PUBLIC_PASSWORD, // Google App Password
+        user: process.env.APP_USER,
+        pass: process.env.APP_PASSWORD, // Google App Password
       },
     });
 
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const mailOptions = {
       from: `"${name}" <${process.env.NEXT_PUBLIC_EMAIL}>`,
       replyTo: email,
-      to: process.env.NEXT_PUBLIC_RECEIVER_EMAIL || "kimberlie@booksbykimberlie.com",
+      to: process.env.RECEIVER_EMAIL || "kimberlie@booksbykimberlie.com",
       subject: `New Inquiry: ${name} — Books by Kimberlie`,
       text: `New message from ${name} (${email}):\n\n${message}`,
       html: `
@@ -68,7 +68,7 @@ export async function POST(req: Request) {
                 
                 <div class="field">
                   <div class="label">Message Details</div>
-                  <div class="message-box">${message.replace(/\n/g, '<br>')}</div>
+                  <div class="message-box">${message.replace(/\n/g, "<br>")}</div>
                 </div>
               </div>
               <div class="footer">
